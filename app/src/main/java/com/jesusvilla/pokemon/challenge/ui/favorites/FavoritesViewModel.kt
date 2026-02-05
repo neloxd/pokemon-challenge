@@ -1,0 +1,31 @@
+package com.jesusvilla.pokemon.challenge.ui.favorites
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.jesusvilla.pokemon.challenge.data.repo.PokemonRepository
+import com.jesusvilla.pokemon.challenge.domain.model.PokemonListItem
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
+
+data class FavoritesUiState(
+    val items: List<PokemonListItem> = emptyList()
+)
+
+@HiltViewModel
+class FavoritesViewModel @Inject constructor(
+    repo: PokemonRepository
+) : ViewModel() {
+
+    val state: StateFlow<FavoritesUiState> =
+        repo.favoriteItems()
+            .map { FavoritesUiState(items = it) }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = FavoritesUiState()
+            )
+}
