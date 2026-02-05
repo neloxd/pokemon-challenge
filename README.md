@@ -82,4 +82,5 @@ The Home screen uses:
 - **Coroutines + Flow:** Async operations + reactive streams.
 - **Coil:** Image loading and caching in Compose.
 - **Room (KSP):** Local persistence with compile-time generated code.
+[pokedex_challenge.mp4](screenshots/pokedex_challenge.mp4)
 
